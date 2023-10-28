@@ -1,7 +1,6 @@
 import numpy as np 
-import numexpr as ne
 import matplotlib.pyplot as plt
-#from matplotlib import cm
+from matplotlib import cm
 
 nx = 1000
 ny = 1000
@@ -51,5 +50,4 @@ for i in range(nt):
     u_now = u_future
     u_future = u_old
     if (i%1000 == 0):
-        #display(u_future)
-        print(i)
+        display(u_future)

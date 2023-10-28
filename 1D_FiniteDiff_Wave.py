@@ -12,7 +12,7 @@ def visualize(xtitle, ytitle, var, ylimup, colour):
     
 
 nx =1000
-nt =1000
+nt =100000
 c = 2
 
 pold = np.zeros(nx)
@@ -23,17 +23,17 @@ xmax = 1
 x = np.linspace(0, xmax, nx)
 dx = xmax/(nx - 1)
 
-dt = (dx/c)*0.5 #mutliply this by desired CFL number which is 1 by default
+dt = (dx/c)*1 #mutliply this by desired CFL number which is 1 by default
 #dt = 0.025
 
 #initial condition (gaussian function)
 
-A = 1 #wave height
+A = 4 #wave height - kinda not really
 B = int(nx/2) #wave pos
-C = 50 #wave width
+C = 25 #wave width - again not really but kinda
 
-#pold[:] = A*np.exp(-(((((x[:])/dx) - B)**2)/(2*C**2)))
-pold[int(3*nx/8):int(5*nx/8)] = 1
+pold[:] = A*np.exp(-(((((x[:])/dx) - B)**2)/(2*C**2)))
+#pold[int(3*nx/8):int(5*nx/8)] = 1
 p = pold
 
 visualize("pos", "mag", pold, 5, "r-")
