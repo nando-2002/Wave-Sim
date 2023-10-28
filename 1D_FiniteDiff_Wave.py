@@ -1,18 +1,21 @@
 import numpy as np 
 import matplotlib.pyplot as plt
 
-def visualize(xtitle, ytitle, var, ylimup, colour):
-    plt.style.use("classic")
+
+
+def visualize(xtitle, ytitle, var, ylimup, colour, n):
+    plt.style.use("dark_background")
     plt.plot(np.linspace(0,xmax,nx), var, colour)   
     plt.ylim(-ylimup,ylimup) 
     plt.xlabel(xtitle)
     plt.ylabel(ytitle)
-    plt.grid()
+    plt.grid('steps')  
+    plt.savefig(f'images/1Dimages/{n:3}.jpg', dpi = 200)
     plt.show()
     
 
 nx =1000
-nt =100000
+nt =2840
 c = 2
 
 pold = np.zeros(nx)
@@ -36,8 +39,8 @@ pold[:] = A*np.exp(-(((((x[:])/dx) - B)**2)/(2*C**2)))
 #pold[int(3*nx/8):int(5*nx/8)] = 1
 p = pold
 
-visualize("pos", "mag", pold, 5, "r-")
-visualize("pos", "mag", p, 5, "r-")
+#visualize("pos", "mag", pold, 5, "r-")
+#visualize("pos", "mag", p, 5, "r-")
 
 
 for i in range(nt):
@@ -52,8 +55,5 @@ for i in range(nt):
     pold = p
     p = pnew
     pnew = pold
-    if(i%100 == 0):
-        visualize("pos", "mag", p, 5, "b-")
-
-    
-    
+    if(i%10 == 0):
+        visualize("position", "magnitude", p, 4.1, "c-", (i/100))
