@@ -1,14 +1,14 @@
 import numpy as np 
+import numexpr as ne
 import matplotlib.pyplot as plt
-from matplotlib import cm
+#from matplotlib import cm
 
-nx = 100
-ny = 100
-nt = 76000
+nx = 1000
+ny = 1000
+nt = 10000
 
-L = 10 #metres
-c = 50 #metres per second
-dt = 0.005 #seconds
+L = 1 #metres
+c = 2 #metres per second
 
 x = np.linspace(0, L, nx)
 y = np.linspace(0, L, ny)
@@ -16,19 +16,28 @@ y = np.linspace(0, L, ny)
 dx = L/nx
 dy = L/ny
 
+dt = (dx/c)*0.5 #seconds
+
 u_old = np.zeros([nx, ny])
 u_now = np.zeros([nx, ny])
 u_future = np.zeros([nx, ny])
 
-#input initial conditions
-u_old[int(1*nx/8):int(2*nx/8),int(1*ny/8):int(2*ny/8)] = 0.5
+#input initial conditionsz
+u_old[int(3*nx/8):int(5*nx/8),int(3*ny/8):int(5*ny/8)] = 0.5
+u_now = u_old
 
 def display(output):
-    fig, ax = plt.subplots(subplot_kw = {"projection":"3d"})
-    a, b = np.meshgrid(x, y)
-    ax.set_zlim(-0.5, 0.5)
-    surf = ax.plot_surface(a, b, output, cmap = cm.viridis, linewidth = 0, antialiased = False)
+    plt.clf()
+    plt.pcolormesh(x, y, output, shading='auto', cmap='viridis')
+    plt.colorbar()
+    plt.ylim(0, L)
+    plt.xlim(0, L)
+    #plt.title(f"Time t = {t:.2f}")
+    plt.xlabel('X')
+    plt.ylabel('Y')
+    plt.pause(0.001)
 
+display(u_old)
 
 for i in range(nt):
     u_future[1:nx-1, 1:ny-1] = (
@@ -40,5 +49,7 @@ for i in range(nt):
             )
     u_old = u_now
     u_now = u_future
-    if (i%4000 == 0):
-        display(u_future)
+    u_future = u_old
+    if (i%1000 == 0):
+        #display(u_future)
+        print(i)
