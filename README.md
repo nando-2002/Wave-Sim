@@ -3,3 +3,6 @@ This repo is a collection of programs that aim to solve the 2nd order wave equat
 
 ## 1D Solver
 ![](https://github.com/pnkchor/Wave-Sim/blob/main/1Danim.gif)
+
+##2D Solver
+![](https://github.com/pnkchor/Wave-Sim/blob/main/2Doutput.PNG)
