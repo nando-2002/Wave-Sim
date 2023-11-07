@@ -4,18 +4,19 @@ import matplotlib.pyplot as plt
 
 
 def visualize(xtitle, ytitle, var, ylimup, colour, n):
-    plt.style.use("dark_background")
+    plt.style.use("default")
     plt.plot(np.linspace(0,xmax,nx), var, colour)   
     plt.ylim(-ylimup,ylimup) 
+    plt.xlim(0, xmax)
     plt.xlabel(xtitle)
     plt.ylabel(ytitle)
     plt.grid('steps')  
-    plt.savefig(f'images/1Dimages/{n:3}.jpg', dpi = 200)
+    #plt.savefig(f'images/1Dimages/{n:3}.jpg', dpi = 200)
     plt.show()
     
 
-nx =1000
-nt =2840
+nx = 1000
+nt = 3200 #2840
 c = 2
 
 pold = np.zeros(nx)
@@ -33,7 +34,7 @@ dt = (dx/c)*1 #mutliply this by desired CFL number which is 1 by default
 
 A = 4 #wave height - kinda not really
 B = int(nx/2) #wave pos
-C = 25 #wave width - again not really but kinda
+C = 5 #wave width - again not really but kinda
 
 pold[:] = A*np.exp(-(((((x[:])/dx) - B)**2)/(2*C**2)))
 #pold[int(3*nx/8):int(5*nx/8)] = 1
@@ -55,5 +56,6 @@ for i in range(nt):
     pold = p
     p = pnew
     pnew = pold
-    if(i%10 == 0):
-        visualize("position", "magnitude", p, 4.1, "c-", (i/100))
+    #if(i%10 == 0):
+        
+visualize("position", "magnitude", p, 4.1, "c-", (i/100))
