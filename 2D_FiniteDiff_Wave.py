@@ -2,9 +2,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import cm
 
-nx = 500
-ny = 500
-nt = 1000
+nx = 275
+ny = 275
+nt = 500
 
 L = 1 #metres
 c = 2 #metres per second
@@ -47,9 +47,10 @@ def der2(f):
     df = np.real(np.fft.ifft(dfhat))
     return df
 
+#display seismogram
 def display1d(xtitle, ytitle, var, ylimup, colour, n):
     plt.style.use("default")
-    plt.plot(np.linspace(0,L,nx), var, colour)   
+    plt.plot(np.linspace(0,L,nt), var, colour)   
     plt.ylim(-ylimup,ylimup) 
     plt.xlabel(xtitle)
     plt.ylabel(ytitle)
@@ -57,6 +58,7 @@ def display1d(xtitle, ytitle, var, ylimup, colour, n):
     #plt.savefig(f'images/1Dimages/{n:3}.jpg', dpi = 200)
     plt.show()    
 
+#display 2d visualization
 def display(output):
     plt.style.use("default")
     plt.clf()
@@ -68,7 +70,8 @@ def display(output):
     plt.xlabel('X')
     plt.ylabel('Y')
     plt.pause(0.001)
-    
+
+#display 3d surface    
 def otherdisplay(output):
     fig, ax = plt.subplots(subplot_kw = {"projection":"3d"})
     a = x
@@ -77,6 +80,8 @@ def otherdisplay(output):
     surf = ax.plot_surface(a, b, output, cmap = cm.viridis, linewidth = 0, antialiased = False)
 
 #otherdisplay(u_old)
+
+#spectral solution
 if (solver == 1):
     for i in range(nt):
         for j in range(nx):
@@ -91,7 +96,7 @@ if (solver == 1):
         u_now = u_future
         u_future = u_old
         
-    
+#finite difference solution
 if (solver == 2):
     for i in range(nt):
         u_future[1:nx-1, 1:ny-1] = (
@@ -101,6 +106,7 @@ if (solver == 2):
                     (u_now[1:nx-1, 2:ny] + u_now[1:ny-1, 0:ny-2] - 2*u_now[1:nx-1, 1:ny-1])/(dy**2)
                     )
                 )
+        seismo[i] = u_now[int(0.8*nx),int(0.8*ny)]
         u_old = u_now
         u_now = u_future
         u_future = u_old
