@@ -1,10 +1,15 @@
 import numpy as np 
 import matplotlib.pyplot as plt
 from matplotlib import cm
+#from numba import jit, njit, prange
+from mpl_toolkits.mplot3d import Axes3D
+import time
 
-nx = 275
-ny = 275
-nt = 500
+start = time.time()
+
+nx = 350
+ny = 350
+nt = 2000
 
 L = 1 #metres
 c = 2 #metres per second
@@ -28,8 +33,8 @@ solver = int(1) #select 2 for finite difference
 #input initial conditions
 
 A = 4 #wave height - kinda not really
-B = int(nx/2) #wave pos
-C = int(0.01*L/dx) #wave width - again not really but kinda
+B = int(4*nx/8) #wave pos
+C = int(0.1*L/dx) #wave width - again not really but kinda
 
 for xx in range(nx):
     for yy in range(ny):
@@ -62,7 +67,7 @@ def display1d(xtitle, ytitle, var, ylimup, colour, n):
 def display(output):
     plt.style.use("default")
     plt.clf()
-    plt.pcolormesh(x, y, output, shading='auto', cmap='viridis', vmax=0.6, vmin=-0.6)
+    plt.pcolormesh(x, y, output, shading='auto', cmap='coolwarm', vmax=0.6, vmin=-0.6)
     plt.colorbar()
     plt.ylim(0, L)
     plt.xlim(0, L)
@@ -72,12 +77,15 @@ def display(output):
     plt.pause(0.001)
 
 #display 3d surface    
-def otherdisplay(output):
+def otherdisplay(output, n):
     fig, ax = plt.subplots(subplot_kw = {"projection":"3d"})
     a = x
     b = y
     a, b = np.meshgrid(a, b)
-    surf = ax.plot_surface(a, b, output, cmap = cm.viridis, linewidth = 0, antialiased = False)
+    ax.axes.set_zlim3d(bottom=-6, top=6)
+    surf = ax.plot_surface(a, b, output, cmap = cm.gnuplot, linewidth = 0, antialiased = False)
+    plt.savefig(f'images/2Dimages/{n:3}.jpg', dpi = 200)
+    plt.close()
 
 #otherdisplay(u_old)
 
@@ -95,6 +103,8 @@ if (solver == 1):
         u_old = u_now
         u_now = u_future
         u_future = u_old
+        if (i%50 == 0):
+            otherdisplay(u_future, i)
         
 #finite difference solution
 if (solver == 2):
@@ -110,7 +120,10 @@ if (solver == 2):
         u_old = u_now
         u_now = u_future
         u_future = u_old
-        #if (i%1000 == 0):
+        if (i%50 == 0):
+            otherdisplay(u_future, i)
        
-display(u_future)
+end = time.time()
+print("Time taken to execute: ", (end - start), "seconds")
+#otherdisplay(u_future)
 #display1d('x distance', 'magnitude', seismo, 6, 'b-', 0)
