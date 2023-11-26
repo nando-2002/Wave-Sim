@@ -9,7 +9,7 @@ start = time.time()
 
 nx = 350
 ny = 350
-nt = 2000
+nt = 250
 
 L = 1 #metres
 c = 2 #metres per second
@@ -84,8 +84,8 @@ def otherdisplay(output, n):
     a, b = np.meshgrid(a, b)
     ax.axes.set_zlim3d(bottom=-6, top=6)
     surf = ax.plot_surface(a, b, output, cmap = cm.gnuplot, linewidth = 0, antialiased = False)
-    plt.savefig(f'images/2Dimages/{n:3}.jpg', dpi = 200)
-    plt.close()
+    #plt.savefig(f'images/2Dimages/{n:3}.jpg', dpi = 200)
+    #plt.close()
 
 #otherdisplay(u_old)
 
@@ -103,8 +103,8 @@ if (solver == 1):
         u_old = u_now
         u_now = u_future
         u_future = u_old
-        if (i%50 == 0):
-            otherdisplay(u_future, i)
+        #if (i%50 == 0):
+            #otherdisplay(u_future, i)
         
 #finite difference solution
 if (solver == 2):
@@ -120,10 +120,11 @@ if (solver == 2):
         u_old = u_now
         u_now = u_future
         u_future = u_old
-        if (i%50 == 0):
-            otherdisplay(u_future, i)
+        #if (i%50 == 0):
+            #otherdisplay(u_future, i)
+
        
 end = time.time()
 print("Time taken to execute: ", (end - start), "seconds")
-#otherdisplay(u_future)
+otherdisplay(u_future,0)
 #display1d('x distance', 'magnitude', seismo, 6, 'b-', 0)
