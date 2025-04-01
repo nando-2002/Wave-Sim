@@ -28,7 +28,7 @@ u_future = np.zeros([nx, ny])
 d2ux = np.zeros([nx, ny])
 d2uy = np.zeros([nx, ny])
 
-solver = int(1) #select 2 for finite difference
+solver = int(2) #select 2 for finite difference
 
 #input initial conditions
 
